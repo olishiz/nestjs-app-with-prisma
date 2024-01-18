@@ -32,6 +32,10 @@
 $ yarn install
 ```
 
+## Versions
+`yarn 1.22.21`
+`node 18.13.0`
+
 ## Running the app
 
 ```bash
