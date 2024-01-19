@@ -19,6 +19,9 @@ export class UserService {
       const user = await this.prisma.user.findUnique({
         where: userWhereUniqueInput,
       });
+      if (!user) {
+        throw createCustomError('User not found', HttpStatus.NOT_FOUND);
+      }
       return plainToInstance(UserDto, user);
     } catch (e) {
       throw createCustomError(

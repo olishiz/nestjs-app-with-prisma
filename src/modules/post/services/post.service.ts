@@ -19,6 +19,9 @@ export class PostService {
       const post = await this.prisma.post.findUnique({
         where: postWhereUniqueInput,
       });
+      if (!post) {
+        throw createCustomError('Post not found', HttpStatus.NOT_FOUND);
+      }
       return plainToInstance(PostsDto, post);
     } catch (e) {
       throw createCustomError(
