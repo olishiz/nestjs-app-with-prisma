@@ -1,31 +1,31 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
-import { Prisma, Post } from '@prisma/client';
-import { plainToInstance } from 'class-transformer';
-import { PostsDto } from '../dto';
-import { createCustomError } from 'src/common/utils/helpers';
+import { HttpStatus, Injectable, Logger } from "@nestjs/common";
+import { PrismaService } from "../../prisma/prisma.service";
+import { Prisma, Post } from "@prisma/client";
+import { plainToInstance } from "class-transformer";
+import { PostsDto } from "../dto";
+import { createCustomError } from "src/common/utils/helpers";
 
 @Injectable()
 export class PostService {
   constructor(private readonly prisma: PrismaService) {}
 
-  private logger = new Logger('Posts service');
+  private logger = new Logger("Posts service");
 
   async post(
     postWhereUniqueInput: Prisma.PostWhereUniqueInput,
   ): Promise<Post | null> {
-    this.logger.log('postById');
+    this.logger.log("postById");
     try {
       const post = await this.prisma.post.findUnique({
         where: postWhereUniqueInput,
       });
       if (!post) {
-        throw createCustomError('Post not found', HttpStatus.NOT_FOUND);
+        throw createCustomError("Post not found", HttpStatus.NOT_FOUND);
       }
       return plainToInstance(PostsDto, post);
     } catch (e) {
       throw createCustomError(
-        e.message || 'Something went wrong',
+        e.message || "Something went wrong",
         e.status || HttpStatus.BAD_REQUEST,
       );
     }
@@ -35,7 +35,7 @@ export class PostService {
     where?: Prisma.PostWhereInput;
     orderBy?: Prisma.PostOrderByWithRelationInput;
   }): Promise<Post[]> {
-    this.logger.log('getAllPosts');
+    this.logger.log("getAllPosts");
     try {
       const posts = await this.prisma.post.findMany({
         where: params.where,
@@ -44,13 +44,13 @@ export class PostService {
       return plainToInstance(PostsDto, posts);
     } catch (e) {
       throw createCustomError(
-        e.message || 'Something went wrong',
+        e.message || "Something went wrong",
         e.status || HttpStatus.BAD_REQUEST,
       );
     }
   }
   async getPublishedPosts(): Promise<Post[]> {
-    this.logger.log('getPublishedPosts');
+    this.logger.log("getPublishedPosts");
     try {
       const publishedPosts = await this.prisma.post.findMany({
         where: { published: true },
@@ -58,14 +58,14 @@ export class PostService {
       return plainToInstance(PostsDto, publishedPosts);
     } catch (e) {
       throw createCustomError(
-        e.message || 'Something went wrong',
+        e.message || "Something went wrong",
         e.status || HttpStatus.BAD_REQUEST,
       );
     }
   }
 
   async createPost(data: Prisma.PostCreateInput): Promise<Post> {
-    this.logger.log('createPost');
+    this.logger.log("createPost");
     try {
       const createPost = await this.prisma.post.create({
         data,
@@ -73,7 +73,7 @@ export class PostService {
       return createPost;
     } catch (e) {
       throw createCustomError(
-        e.message || 'Something went wrong',
+        e.message || "Something went wrong",
         e.status || HttpStatus.BAD_REQUEST,
       );
     }
@@ -83,7 +83,7 @@ export class PostService {
     where: Prisma.PostWhereUniqueInput;
     data: Prisma.PostUpdateInput;
   }): Promise<Post> {
-    this.logger.log('updatePost');
+    this.logger.log("updatePost");
     try {
       const { data, where } = params;
       const updatePost = await this.prisma.post.update({
@@ -93,14 +93,14 @@ export class PostService {
       return updatePost;
     } catch (e) {
       throw createCustomError(
-        e.message || 'Something went wrong',
+        e.message || "Something went wrong",
         e.status || HttpStatus.BAD_REQUEST,
       );
     }
   }
 
   async deletePost(where: Prisma.PostWhereUniqueInput): Promise<Post> {
-    this.logger.log('deletePost');
+    this.logger.log("deletePost");
     try {
       const deletePost = await this.prisma.post.delete({
         where,
@@ -108,7 +108,7 @@ export class PostService {
       return deletePost;
     } catch (e) {
       throw createCustomError(
-        e.message || 'Something went wrong',
+        e.message || "Something went wrong",
         e.status || HttpStatus.BAD_REQUEST,
       );
     }

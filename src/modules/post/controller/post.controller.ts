@@ -6,21 +6,21 @@ import {
   Param,
   Post,
   Put,
-} from '@nestjs/common';
-import { PostService } from '../services/post.service';
-import { Post as PostModel } from '@prisma/client';
-import { CreatePostsDto } from '../dto';
+} from "@nestjs/common";
+import { PostService } from "../services/post.service";
+import { Post as PostModel } from "@prisma/client";
+import { CreatePostsDto } from "../dto";
 
-@Controller('posts')
+@Controller("posts")
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Get(':id')
-  async getPostById(@Param('id') id: string): Promise<PostModel> {
+  @Get(":id")
+  async getPostById(@Param("id") id: string): Promise<PostModel> {
     return this.postService.post({ id: id });
   }
 
-  @Get('post/feed')
+  @Get("post/feed")
   async getPublishedPosts() {
     try {
       const publishedPosts = await this.postService.getPublishedPosts();
@@ -30,9 +30,9 @@ export class PostController {
     }
   }
 
-  @Get('filtered-posts/:searchString')
+  @Get("filtered-posts/:searchString")
   async getFilteredPosts(
-    @Param('searchString') searchString: string,
+    @Param("searchString") searchString: string,
   ): Promise<PostModel[]> {
     return this.postService.posts({
       where: {
@@ -60,16 +60,16 @@ export class PostController {
     });
   }
 
-  @Put(':id')
-  async updatePost(@Param('id') id: string): Promise<PostModel> {
+  @Put(":id")
+  async updatePost(@Param("id") id: string): Promise<PostModel> {
     return this.postService.updatePost({
       where: { id: id },
       data: { published: true },
     });
   }
 
-  @Delete(':id')
-  async deletePost(@Param('id') id: string): Promise<PostModel> {
+  @Delete(":id")
+  async deletePost(@Param("id") id: string): Promise<PostModel> {
     return this.postService.deletePost({ id: id });
   }
 }
