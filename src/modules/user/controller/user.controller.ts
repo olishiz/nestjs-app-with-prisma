@@ -22,7 +22,7 @@ export class UserController {
 
   @Get(':id')
   async getUser(@Param('id') id: string) {
-    return this.userService.user({ id: Number(id) });
+    return this.userService.user({ id: id });
   }
 
   @Post()
@@ -36,13 +36,13 @@ export class UserController {
     @Body() userData: UpdateUserDto,
   ): Promise<UserModel> {
     return this.userService.updateUser({
-      where: { id: Number(id) },
+      where: { id: id },
       data: userData,
     });
   }
 
   @Delete(':id')
   async deleteUser(@Param('id') id: string): Promise<UserModel> {
-    return this.userService.deleteUser({ id: Number(id) });
+    return this.userService.deleteUser({ id: id });
   }
 }

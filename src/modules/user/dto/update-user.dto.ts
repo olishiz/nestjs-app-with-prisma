@@ -5,5 +5,5 @@ import { CreateUserDto } from './create-user.dto';
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsDefined()
   @IsString()
-  readonly id: number;
+  readonly id: string;
 }

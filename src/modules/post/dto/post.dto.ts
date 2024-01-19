@@ -12,5 +12,5 @@ export class PostsDto extends AbstractDto {
   published: boolean;
 
   @Expose()
-  authorId: number;
+  authorId: string;
 }
